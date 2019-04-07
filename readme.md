@@ -11,7 +11,8 @@ When the game corrupts your savegame, you can restore an older version of your s
 # How to use
 
 ## Installation
-1. Extract the latest release into a directory of your choice
+1. download the latest release from [the release page](https://github.com/LostMekka/sekiro-save-saver/releases).
+1. Extract the zip file into a directory of your choice
 1. Make sure you have Java installed (at least Java 8)
 
 If you are feeling adventurous, you can also build the app yourself.
