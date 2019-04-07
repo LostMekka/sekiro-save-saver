@@ -64,4 +64,5 @@ I am not responsible for any loss of progress in your game, I just want to help 
 
 Also a note of caution: Please do not use this app to save-hop your way through the game.
 I strongly discourage any other use of this app than to restore savegame files when they are corrupted and would be lost otherwise.
+
 With that in mind: Happy gaming and praise the sun!
