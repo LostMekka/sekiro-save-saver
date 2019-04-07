@@ -1,0 +1,11 @@
+## IntelliJ
+.idea
+build
+
+## files created when run in IDE
+config.properties
+backup-data
+
+## Distribution
+dist
+*.zip
