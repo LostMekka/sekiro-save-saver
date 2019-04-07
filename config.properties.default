@@ -1,5 +1,5 @@
 #Sekiro Save Saver by Lostmekka
 playSounds=true
-backupBlockTimeAfterBackupInMs=2000
+backupBlockTimeAfterBackupInMs=30000
 backupBlockTimeAfterRestoreInMs=2000
 maxBackupFileCount=25
