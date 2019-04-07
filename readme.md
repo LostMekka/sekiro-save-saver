@@ -21,7 +21,7 @@ All you need to do for that is check out the sources and run `./gradlew distZip`
 ## starting the App
 1. Start the app by double-clicking `sekiro-save-saver.jar`
 1. Chose your savegame directory.
-   For Sekiro this probably will be `C:\Users\<yourWindowsUserName>\AppDataRoaming\Sekiro\<yourProfileId>`.
+   For Sekiro this probably will be `C:\Users\<yourWindowsUserName>\AppData\Roaming\Sekiro\<yourProfileId>`.
    The app tries to locate this directory for you, so it might already be selected.
    To choose, simply double click on any savegame file in the target directory.
 1. start playing your game. You will hear a sound every time an automatic backup of a save file is made.
