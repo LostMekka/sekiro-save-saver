@@ -147,6 +147,7 @@ private suspend fun backupManager(directoryPath: String, fileNameBlacklist: Stri
     println("backup management initializing")
     val blacklistNames = fileNameBlacklist
         .split(';')
+        .filter { it.isNotBlank() }
         .map { it.toRegex() }
     fun String.isBlacklisted() = blacklistNames.any { pattern -> matches(pattern) }
     val backupManagers = File(directoryPath)
