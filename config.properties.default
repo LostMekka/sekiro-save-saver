@@ -3,3 +3,4 @@ playSounds=true
 backupBlockTimeAfterBackupInMs=30000
 backupBlockTimeAfterRestoreInMs=2000
 maxBackupFileCount=25
+fileNameBlacklist=.*\\.bak
