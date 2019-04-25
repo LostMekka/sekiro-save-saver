@@ -34,6 +34,7 @@ private fun Properties.prop(propertyName: String? = null) = PropertyFileProperty
 class Config(private val configFileName: String) {
     private var properties = Properties()
     var watchDir by properties.prop()
+    var fileNameBlacklist by properties.prop()
     var playSounds by properties.prop()
     var maxBackupFileCount by properties.prop()
     var backupBlockTimeAfterBackupInMs by properties.prop()

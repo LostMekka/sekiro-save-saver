@@ -46,6 +46,7 @@ fun main() {
     val config = Config("config.properties")
     val settings = config.toSettings()
     config.copyFrom(settings)
+    config.fileNameBlacklist = config.fileNameBlacklist.takeIf { it.isNotBlank() } ?: """.*\.bak"""
     config.save()
 
     println("asking for target directory...")
@@ -66,7 +67,7 @@ fun main() {
         val watcherJob = launch { directoryWatcher(watchDir) }
 
         println("launching backup management job...")
-        val backupMgrJob = launch { backupManager(watchDir, settings) }
+        val backupMgrJob = launch { backupManager(watchDir, config.fileNameBlacklist, settings) }
 
         println("waiting for termination signal...")
         TerminationChannel.receive()
@@ -142,11 +143,15 @@ suspend fun directoryWatcher(directoryPath: String) {
     }
 }
 
-private suspend fun backupManager(directoryPath: String, settings: Settings) {
+private suspend fun backupManager(directoryPath: String, fileNameBlacklist: String, settings: Settings) {
     println("backup management initializing")
+    val blacklistNames = fileNameBlacklist
+        .split(';')
+        .map { it.toRegex() }
+    fun String.isBlacklisted() = blacklistNames.any { pattern -> matches(pattern) }
     val backupManagers = File(directoryPath)
         .listFiles()
-        .filter { it.isFile }
+        .filter { it.isFile && !it.name.isBlacklisted() }
         .associateBy(
             { it.name },
             { BackupManager(it) }
@@ -162,6 +167,7 @@ private suspend fun backupManager(directoryPath: String, settings: Settings) {
     while (true) {
         if (!FileChangedEventChannel.isEmpty) {
             val fileEvent = FileChangedEventChannel.receive()
+            if (fileEvent.filePath.fileName.toString().isBlacklisted()) continue
             val targetFile = File(fileEvent.filePath.fileName.toUri())
             val timestamp = System.currentTimeMillis()
             println("received event: FILE CHANGED: '${fileEvent.filePath.fileName}' ${fileEvent.type} at ${timestamp.toTimeString()}")
