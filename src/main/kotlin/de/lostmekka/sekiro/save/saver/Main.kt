@@ -167,10 +167,11 @@ private suspend fun backupManager(directoryPath: String, fileNameBlacklist: Stri
     while (true) {
         if (!FileChangedEventChannel.isEmpty) {
             val fileEvent = FileChangedEventChannel.receive()
-            if (fileEvent.filePath.fileName.toString().isBlacklisted()) continue
-            val targetFile = File(fileEvent.filePath.fileName.toUri())
+            val fileName = fileEvent.filePath.fileName.toString()
+            if (fileName.isBlacklisted()) continue
+            val targetFile = File("$directoryPath/$fileName")
             val timestamp = System.currentTimeMillis()
-            println("received event: FILE CHANGED: '${fileEvent.filePath.fileName}' ${fileEvent.type} at ${timestamp.toTimeString()}")
+            println("received event: FILE CHANGED: '$fileName' ${fileEvent.type} at ${timestamp.toTimeString()}")
             if (fileEvent.type == FileEventType.Deleted) continue
             backupManagers
                 .getOrPut(targetFile.name) { BackupManager(targetFile) }
