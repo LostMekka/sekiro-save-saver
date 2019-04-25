@@ -166,6 +166,7 @@ private suspend fun backupManager(directoryPath: String, fileNameBlacklist: Stri
     println("backup management starting")
     updateGui()
     while (true) {
+        @Suppress("EXPERIMENTAL_API_USAGE")
         if (!FileChangedEventChannel.isEmpty) {
             val fileEvent = FileChangedEventChannel.receive()
             val fileName = fileEvent.filePath.fileName.toString()
@@ -181,6 +182,7 @@ private suspend fun backupManager(directoryPath: String, fileNameBlacklist: Stri
             continue
         }
 
+        @Suppress("EXPERIMENTAL_API_USAGE")
         if (!RestoreRequestChannel.isEmpty) {
             val backupRequest = RestoreRequestChannel.receive()
             val fileName = backupRequest.targetFileName
