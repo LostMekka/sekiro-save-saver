@@ -18,7 +18,7 @@ class PropertyFileProperty(
 
     override fun getValue(thisRef: Any, property: KProperty<*>): String {
         if (cachedValue == null) cachedValue =
-            System.getenv(name(property).toUpperCase())?.trim()?.takeIf { it.isNotBlank() }
+            System.getenv(name(property).uppercase(Locale.getDefault()))?.trim()?.takeIf { it.isNotBlank() }
         if (cachedValue == null) cachedValue = properties.getProperty(name(property))
         return cachedValue ?: ""
     }

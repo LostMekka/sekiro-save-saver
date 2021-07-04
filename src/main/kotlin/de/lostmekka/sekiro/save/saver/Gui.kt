@@ -9,6 +9,7 @@ import javafx.concurrent.Task
 import javafx.scene.control.ListView
 import javafx.scene.control.SelectionMode
 import kotlinx.coroutines.channels.sendBlocking
+import kotlinx.coroutines.channels.trySendBlocking
 import kotlinx.coroutines.runBlocking
 import tornadofx.*
 
@@ -19,7 +20,7 @@ class FileModel(fileName: String, backupTimestamps: List<BackupModel>) {
     var fileName by fileNameProperty
 
     val backupTimestampsProperty =
-        SimpleListProperty<BackupModel>(this, "backupTimestamps", backupTimestamps.observable())
+        SimpleListProperty<BackupModel>(this, "backupTimestamps", backupTimestamps.asObservable())
     var backupTimestamps by backupTimestampsProperty
 
     override fun toString() = fileName.takeUnless { it.isEmpty() } ?: "NO FILE NAME"
@@ -33,9 +34,9 @@ class BackupModel(timestamp: Long) {
 class MainView : View() {
     private lateinit var communicationTask: Task<Unit>
 
-    private val files = mutableListOf<FileModel>().observable()
+    private val files = mutableListOf<FileModel>().asObservable()
     private val selectedFile = SimpleObjectProperty<FileModel>()
-    private val timestamps = mutableListOf<BackupModel>().observable()
+    private val timestamps = mutableListOf<BackupModel>().asObservable()
 
     private var fileView: ListView<FileModel> by singleAssign()
     override val root = borderpane {
@@ -105,7 +106,7 @@ class MainView : View() {
         println("stopping communication gui task")
         communicationTask.cancel()
         println("sending termination signal")
-        TerminationChannel.sendBlocking(FileWatcherTerminationSignal)
+        TerminationChannel.trySendBlocking(FileWatcherTerminationSignal)
         println("sent termination signal")
     }
 }

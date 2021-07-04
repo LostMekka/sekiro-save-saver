@@ -1,5 +1,6 @@
 ## IntelliJ
 .idea
+.gradle
 build
 
 ## files created when run in IDE
